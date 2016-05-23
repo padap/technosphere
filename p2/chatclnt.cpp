@@ -1,4 +1,6 @@
 // Chat client. Linux ubuntu.
+// THIS IS CLIENT
+
 #include "local.h"
 #include "utils.h"
 

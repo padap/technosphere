@@ -1,4 +1,5 @@
 //Utility functions for chat client and server. Linux.
+
 #include "local.h"
 
 // Setup nonblocking socket

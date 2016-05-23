@@ -3,18 +3,18 @@
 #define _SCHAT_LOCAL_H
 
 #include <iostream>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>;
+// #include <sys/types.h>
+// #include <sys/socket.h>
+// #include <netinet/in.h>;
 
 #include <arpa/inet.h>
 #include <sys/epoll.h>
 #include <fcntl.h>
-#include <errno.h>
+// #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <list>
-#include <time.h>
+// #include <time.h>
 #include <stdlib.h>
 #include <cstring>
 
@@ -40,7 +40,7 @@
 #define STR_MESSAGE "Client №%d>> %s"
 
 // Warning message if you alone in server
-#define STR_NOONE_CONNECTED "Noone connected to server except you!"
+#define STR_NOONE_CONNECTED "There are no connection to server except you!"
 
 // Commad to exit
 #define CMD_EXIT "EXIT"
