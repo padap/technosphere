@@ -19,12 +19,12 @@
 #include <cstring>
 
 // Default buffer size
-#define BUFFERSIZE 3100
+#define BUFFER_SIZE 3100
 
 // Default port
-#define SERVER_PORT 3100//44444
+#define SERVER_PORT 3100
 
-// Chat server ip, you should change it to your own server ip address
+// Chat server ip # you should change it to your own server ip address
 #define SERVER_HOST "127.0.0.1"
 
 // Default timeout

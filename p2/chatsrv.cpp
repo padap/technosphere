@@ -1,18 +1,26 @@
 // Chat server. Linux ubuntu.
+// THIS IS SERVER
+
 #include "local.h"
 #include "utils.h"
 
 using namespace std;
 
-list<int> clientsIntlist; //list of clients
+list<int> clientsIntlist; //List of clients
 
 int main(int argc, char *argv[])
 {
 	int listener;
 
-	struct sockaddr_in addr, their_addr;
 
-	//     set server parameters
+	struct sockaddr_in addr, their_addr;
+	// Adress of socket: server, clients
+	// sin_family:    Тип адреса (должно быть PF_INET ).
+	// sin_port:      Порт IP-адресов.
+	// sin_addr:      IP-адрес.
+	// sin_zero:      Заполнение, чтобы сделать структуру одного размера c SOCKADDR.
+
+	// Set server parameters
 	addr.sin_family = PF_INET;
 	addr.sin_port = htons(SERVER_PORT);
 	addr.sin_addr.s_addr = inet_addr(SERVER_HOST);
@@ -20,21 +28,21 @@ int main(int argc, char *argv[])
 	socklen_t socklen;
 	socklen = sizeof(struct sockaddr_in);
 
-	//     event template for epoll_ctl
-	//     storage array for incoming events from epoll_wait
+	//     Event template for epoll_ctl
+	//     Storage array for incoming events from epoll_wait
 	//     and maximum events count could be EPOLL_SIZE
 	static struct epoll_event ev, events[EPOLL_SIZE];
-	//     watch just incoming(EPOLLIN)
+	//     Watch just incoming(EPOLLIN)
 	//     and Edge Trigged(EPOLLET) events
 	ev.events = EPOLLIN | EPOLLET;
 
-	//     message buffer
-	char message[BUFFERSIZE];
+	//     Message buffer
+	char message[BUFFER_SIZE];
 
-	//     epoll descriptor to watch events
+	//     Epoll descriptor to watch events
 	int epfd;
 
-	// other values:
+	// Other values:
 	//     new client descriptor
 	//     to keep the results of different functions
 	//     to keep incoming epoll_wait's events count
@@ -95,9 +103,9 @@ int main(int argc, char *argv[])
 				clientsIntlist.push_back(client); // add new connection to list of clients
 
 				// send initial welcome message to client
-				bzero(message, BUFFERSIZE);
+				bzero(message, BUFFER_SIZE);
 				res = sprintf(message, STR_WELCOME, client);
-				CHK2(res, sendall(client, message, BUFFERSIZE));
+				CHK2(res, sendall(client, message, BUFFER_SIZE));
 			}
 			else{ // EPOLLIN event for others(new incoming message from client)
 				CHK2(res,handle_message(events[i].data.fd));
@@ -116,15 +124,15 @@ int handle_message(int client)
 {
 	// get row message from client(buf)
 	//     and format message to populate(message)
-	char buf[BUFFERSIZE], message[BUFFERSIZE];
-	bzero(buf, BUFFERSIZE);
-	bzero(message, BUFFERSIZE);
+	char buf[BUFFER_SIZE], message[BUFFER_SIZE];
+	bzero(buf, BUFFER_SIZE);
+	bzero(message, BUFFER_SIZE);
 
 	// to keep different results
 	int len;
 
 	// try to get new raw message from client
-	CHK2(len,recv(client, buf, BUFFERSIZE, 0));
+	CHK2(len,recv(client, buf, BUFFER_SIZE, 0));
 
 	// zero size of len mean the client closed connection
 	if(len == 0){
@@ -149,7 +157,7 @@ int handle_message(int client)
 		// populate message around the world
 		list<int>::iterator it;
 		for(it = clientsIntlist.begin(); it != clientsIntlist.end(); it++)
-			CHK(sendall(*it, message, BUFFERSIZE));
+			CHK(sendall(*it, message, BUFFER_SIZE));
 	}
 
 	return len;

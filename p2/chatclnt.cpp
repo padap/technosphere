@@ -5,7 +5,7 @@
 using namespace std;
 
 // chat message buffer
-char message[BUFFERSIZE];
+char message[BUFFER_SIZE];
 
 int main(int argc, char *argv[])
 {
@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
                         close(pipe_fd[0]); // we dont need read pipe here
                         printf("Enter 'exit' to exit\n");
                         while(continue_to_work){
-                                bzero(&message, BUFFERSIZE);
-                                fgets(message, BUFFERSIZE, stdin);
+                                bzero(&message, BUFFER_SIZE);
+                                fgets(message, BUFFER_SIZE, stdin);
 
                                 // close while cycle for 'exit' command
                                 if(strncasecmp(message, CMD_EXIT, strlen(CMD_EXIT)) == 0){
@@ -75,11 +75,11 @@ int main(int argc, char *argv[])
 				for(int i = 0; i <= fdmax ; i++){
 					if(FD_ISSET(i, &read_fds)){
 
-		                                bzero(&message, BUFFERSIZE);
+		                                bzero(&message, BUFFER_SIZE);
 
 		                                // new message from server
 		                                if(i == sock){
-		                                        CHK2(res,recv(sock, message, BUFFERSIZE, 0));
+		                                        CHK2(res,recv(sock, message, BUFFER_SIZE, 0));
 
 		                                        // zero size of result means the server closed connection
 		                                        if(res == 0){
@@ -92,14 +92,14 @@ int main(int argc, char *argv[])
 		                                        // message from child process(user's input message)
 		                                }
 						else{
-		                                        CHK2(res, read(pipe_fd[0], message, BUFFERSIZE));
+		                                        CHK2(res, read(pipe_fd[0], message, BUFFER_SIZE));
 
 		                                        // zero size of result means the child process going to exit
 		                                        if(res == 0)
 								continue_to_work = 0; // exit parent to
 		                                        // send message to server
 		                                        else
-		                                                CHK(sendall(sock, message, BUFFERSIZE));
+		                                                CHK(sendall(sock, message, BUFFER_SIZE));
 		                                }
 					}
                                 }
